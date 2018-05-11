@@ -1,14 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QJsonDocument>
-#include "treeview_filesystem_model.h"
-
-
-void InsertItem()
-{
-
-}
-
+#include "treeview_model.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +9,7 @@ int main(int argc, char *argv[])
     printf("hi\n");
 
 
-    qmlRegisterType<TreeViewFileSystemModel>("m.fileSystemModel",1,0,"FileSystemModel");
+    qmlRegisterType<TreeViewModel>("m.itemModel",1,0,"TreeViewModel");
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

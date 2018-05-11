@@ -4,26 +4,23 @@ import QtQuick.Controls 1.4
 Rectangle {
     property alias mouseArea: mouseArea
     property alias leftTreeView: leftTreeView
-    property alias btnInsertRow: btnInsertRow
-    property alias btnRemoveRow: btnRemoveRow
+    //    property alias btnInsertRow: btnInsertRow
+    //    property alias btnRemoveRow: btnRemoveRow
+    property alias textDesc: textDesc
 
-    width: 360
-    height: 360
+    width: 600
+    height: 600
 
     MouseArea {
         id: mouseArea
-        anchors.rightMargin: -310
-        anchors.bottomMargin: -210
         anchors.fill: parent
     }
     Column {
-        anchors.rightMargin: -310
-        anchors.bottomMargin: -210
         anchors.fill: parent
         spacing: 2
         TreeView {
-            id:leftTreeView
-            width: 300
+            id: leftTreeView
+            width: 400
             height: parent.height
             TableViewColumn {
                 title: "Name"
@@ -31,44 +28,55 @@ Rectangle {
                 width: 200
             }
             TableViewColumn {
-                title: "Permissions"
+                title: "CreateDate"
                 role: "CreateDate"
-                width: 100
+                width: 200
             }
-            model: fileSystemModel
+            model: itemModel
         }
 
-        Rectangle{
-            id:btnPanel
-//            border.color: "red"
-//            border.width: 1
-            x:leftTreeView.x + leftTreeView.width + 5
-//            Button {
-//                id:btnLoadData
-//                width: 75
-//                height: 25
-//                x:5
-//                text:"ImportData"
-//            }
-            Button {
-                id:btnInsertRow
-                width:75
-                height: 25
-                x:5
-                text: "InsertItem"
-            }
+        Rectangle {
+            id: btnPanel
+            anchors.left: leftTreeView.right
+            anchors.top: parent.top
+            anchors.right: parent.right
+            x: leftTreeView.x + leftTreeView.width + 5
 
-            Button {
-                id:btnRemoveRow
-                width:btnInsertRow.width
-                height: btnInsertRow.height
-                x:btnInsertRow.x
-                y:btnInsertRow.y + btnInsertRow.height + 5
-                text:"RemoveItem"
+            //            Button {
+            //                id:btnLoadData
+            //                width: 75
+            //                height: 25
+            //                x:5
+            //                text:"ImportData"
+            //            }
+            //            Button {
+            //                id: btnInsertRow
+            //                width: 75
+            //                height: 25
+            //                x: 15
+            //                y: 15
+            //                text: "InsertItem"
+            //            }
+
+            //            Button {
+            //                id: btnRemoveRow
+            //                width: btnInsertRow.width
+            //                height: btnInsertRow.height
+            //                x: btnInsertRow.x
+            //                y: btnInsertRow.y + btnInsertRow.height + 5
+            //                text: "RemoveItem"
+            //            }
+            Text {
+                id: textDesc
+                y: 340
+                height: 260
+                text: qsTr("Text")
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                font.pixelSize: 12
             }
         }
-
     }
-
-
 }

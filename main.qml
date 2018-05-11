@@ -1,15 +1,15 @@
 import QtQuick 2.6
 import QtQuick.Window 2.2
-import m.fileSystemModel 1.0
+import m.itemModel 1.0
 
 Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("TreeView Demo")
 
-    FileSystemModel {
-        id:fileSystemModel
+    TreeViewModel {
+        id:itemModel
     }
 
     MainForm {
@@ -17,12 +17,22 @@ Window {
         mouseArea.onClicked: {            
         }
 
-        btnInsertRow.onClicked: {
-            console.log(fileSystemModel.columnCount())
-            console.log(fileSystemModel.rowCount())
+        function itemData(idx){
+            return leftTreeView.model.data(idx, TreeViewModel.MROLE_Name) + " " + leftTreeView.model.data(idx,TreeViewModel.MROLE_CreateDate);
         }
 
-        btnRemoveRow.onClicked: {
+
+        leftTreeView.onSelectionChanged: {
+            console.log("Selected Changed")
+        }
+
+        leftTreeView.onCurrentIndexChanged: {
+            console.log("CurrentIndexChanged, CurrentIndex:" + leftTreeView.model.data(leftTreeView.currentIndex,TreeViewModel.MROLE_Name))
+            textDesc.text = itemData(leftTreeView.currentIndex)
+        }
+
+        leftTreeView.onClicked: {
+//            console.log("OnClicked")
         }
     }
 }

@@ -5,12 +5,10 @@ project(QuickTreeView LANGUAGES CXX)
 set(SRC_FILES
 "main.cpp"
 "qml.qrc"
-"treeview_model.h"
-"treeview_model.cpp"
 "treeview_item.h"
 "treeview_item.cpp"
-"treeview_filesystem_model.h"
-"treeview_filesystem_model.cpp"
+"treeview_model.h"
+"treeview_model.cpp"
     )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
