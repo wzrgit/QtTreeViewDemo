@@ -11,7 +11,7 @@ class TreeViewFileSystemModel : public QAbstractItemModel
     Q_OBJECT
     enum ItemRoles{
         Name=Qt::UserRole + 1,
-        Permissions
+        CreateDate
     };
 public:
     TreeViewFileSystemModel(QObject *parent=nullptr);
@@ -21,7 +21,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QModelIndex parent(const QModelIndex &child) const override;
     virtual int rowCount(const QModelIndex &parent) const override;
-    virtual QHash<int,QByteArray> roleNames();
+    virtual QHash<int,QByteArray> roleNames() const override;
 
 
 private:

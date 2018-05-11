@@ -27,12 +27,12 @@ Rectangle {
             height: parent.height
             TableViewColumn {
                 title: "Name"
-                role: "fileName"
+                role: "Name"
                 width: 200
             }
             TableViewColumn {
                 title: "Permissions"
-                role: "filePermissions"
+                role: "CreateDate"
                 width: 100
             }
             model: fileSystemModel

@@ -8,7 +8,10 @@ TreeViewFileSystemModel::TreeViewFileSystemModel(QObject* parent)
     list.append("desc folder");
     m_rootItem = new TreeViewItem(list,nullptr);
 
-    TreeViewItem* item = new TreeViewItem(list, m_rootItem);
+    QList<QVariant> sublist;
+    sublist.append("Node1");
+    sublist.append("theSubNode");
+    TreeViewItem* item = new TreeViewItem(sublist, m_rootItem);
     m_rootItem->appendChild(item);
 }
 
@@ -17,18 +20,22 @@ int TreeViewFileSystemModel::columnCount(const QModelIndex &parent) const
     return m_rootItem->columnCount();
 }
 
+/*
+ * Returns the index of the item in the model specified by the given row, column and parent index.
+ * When reimplementing this function in a subclass, call createIndex() to generate model indexes that other components can use to refer to items in your model.
+*/
 QModelIndex TreeViewFileSystemModel::index(int row, int column, const QModelIndex &parent) const
 {
     if(!hasIndex(row, column,parent))
         return QModelIndex();
 
-    TreeViewItem* item;
+    TreeViewItem* parentItem;
     if(!parent.isValid())
-        item = m_rootItem;
+        parentItem = m_rootItem;
     else
-        item = static_cast<TreeViewItem*>(parent.internalPointer());
+        parentItem = static_cast<TreeViewItem*>(parent.internalPointer());
 
-    TreeViewItem* child = item->child(row);
+    TreeViewItem* child = parentItem->child(row);
     if(child)
         return createIndex(row, column, child);
 
@@ -37,17 +44,27 @@ QModelIndex TreeViewFileSystemModel::index(int row, int column, const QModelInde
 
 QVariant TreeViewFileSystemModel::data(const QModelIndex &index, int role) const
 {
+    TreeViewItem* item = static_cast<TreeViewItem*>(index.internalPointer());
     switch (role) {
     case ItemRoles::Name:
-        return "TheName";
+        return item->data(0);
         break;
-    case ItemRoles::Permissions:
-        return "ThePermissions";
+    case ItemRoles::CreateDate:
+        return item->data(1);
+        break;
     default:
+        return "DefaultRole";
         break;
     }
 }
 
+/*
+ * Returns the parent of the model item with the given index. If the item has no parent, an invalid QModelIndex is returned.
+ * A common convention used in models that expose tree data structures is that only items in the first column have children.
+ * For that case, when reimplementing this function in a subclass the column of the returned QModelIndex would be 0.
+ * When reimplementing this function in a subclass, be careful to avoid calling QModelIndex member functions, such as QModelIndex::parent(),
+ * since indexes belonging to your model will simply call your implementation, leading to infinite recursion.
+*/
 QModelIndex TreeViewFileSystemModel::parent(const QModelIndex &child) const
 {
     if(!child.isValid())
@@ -60,10 +77,11 @@ QModelIndex TreeViewFileSystemModel::parent(const QModelIndex &child) const
         return QModelIndex();
 
     TreeViewItem* parentItem = item->parent();
-    if(parentItem == m_rootItem)
-        return QModelIndex();
+    int row = 0;
+    if(parentItem != m_rootItem)
+        row = parentItem->row();
 
-    return createIndex(parentItem->row(),0, parentItem);
+    return createIndex(row,0, parentItem);
 }
 
 int TreeViewFileSystemModel::rowCount(const QModelIndex &parent) const
@@ -74,11 +92,11 @@ int TreeViewFileSystemModel::rowCount(const QModelIndex &parent) const
     return m_rootItem->childCount();
 }
 
-QHash<int, QByteArray> TreeViewFileSystemModel::roleNames()
+QHash<int, QByteArray> TreeViewFileSystemModel::roleNames() const
 {
     QHash<int, QByteArray> names(QAbstractItemModel::roleNames());
     names[ItemRoles::Name] = "Name";
-    names[ItemRoles::Permissions] = "Permissions";
+    names[ItemRoles::CreateDate] = "CreateDate";
 
     return names;
 }
