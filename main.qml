@@ -13,11 +13,13 @@ Window {
     }
 
     MainForm {
-        anchors.fill: parent
+        anchors.fill: parent        
         mouseArea.onClicked: {            
         }
 
         btnInsertRow.onClicked: {
+            console.log(fileSystemModel.columnCount())
+            console.log(fileSystemModel.rowCount())
         }
 
         btnRemoveRow.onClicked: {

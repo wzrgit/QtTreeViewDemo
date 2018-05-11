@@ -13,6 +13,7 @@ void InsertItem()
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    printf("hi\n");
 
 
     qmlRegisterType<TreeViewFileSystemModel>("m.fileSystemModel",1,0,"FileSystemModel");

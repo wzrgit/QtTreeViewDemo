@@ -50,3 +50,11 @@ TreeViewItem* TreeViewItem::parent() const
 {
     return m_parentItem;
 }
+
+int TreeViewItem::row() const
+{
+    if(!m_parentItem)
+        return 0;
+
+    return m_parentItem->m_childItems.indexOf(const_cast<TreeViewItem*>(this));
+}

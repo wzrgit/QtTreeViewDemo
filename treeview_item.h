@@ -18,6 +18,7 @@ public:
     int columnCount() const;
     QVariant data(int column) const;
     TreeViewItem* parent() const;
+    int row() const;
 
 private:
     TreeViewItem* m_parentItem;
