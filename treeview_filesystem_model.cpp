@@ -12,7 +12,19 @@ TreeViewFileSystemModel::TreeViewFileSystemModel(QObject* parent)
     sublist.append("Node1");
     sublist.append("theSubNode");
     TreeViewItem* item = new TreeViewItem(sublist, m_rootItem);
+
+    QList<QVariant> sublist2;
+    sublist2.append("Node2");
+    sublist2.append("subNode2");
+    TreeViewItem* item2 = new TreeViewItem(sublist2, m_rootItem);
+
+    QList<QVariant> sublist3;
+    sublist3.append("Node3");
+    sublist3.append("SubNode3");
+    item2->appendChild(new TreeViewItem(sublist3, item2));
+
     m_rootItem->appendChild(item);
+    m_rootItem->appendChild(item2);
 }
 
 int TreeViewFileSystemModel::columnCount(const QModelIndex &parent) const
@@ -45,6 +57,10 @@ QModelIndex TreeViewFileSystemModel::index(int row, int column, const QModelInde
 QVariant TreeViewFileSystemModel::data(const QModelIndex &index, int role) const
 {
     TreeViewItem* item = static_cast<TreeViewItem*>(index.internalPointer());
+
+    if(!item)
+        return "Error";
+
     switch (role) {
     case ItemRoles::Name:
         return item->data(0);
@@ -89,7 +105,11 @@ int TreeViewFileSystemModel::rowCount(const QModelIndex &parent) const
     if(!parent.isValid())
         return m_rootItem->childCount();
 
-    return m_rootItem->childCount();
+    TreeViewItem* parentItem = static_cast<TreeViewItem*>(parent.internalPointer());
+    if(!parentItem)
+        return 0;
+
+    return parentItem->childCount();
 }
 
 QHash<int, QByteArray> TreeViewFileSystemModel::roleNames() const

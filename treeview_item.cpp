@@ -26,7 +26,7 @@ void TreeViewItem::clearAllChild()
     //TODO
 }
 
-TreeViewItem *TreeViewItem::child(int row)
+TreeViewItem *TreeViewItem:: child(int row)
 {
     return m_childItems.value(row);
 }
